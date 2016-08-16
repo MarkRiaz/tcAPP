@@ -7,5 +7,6 @@ FactoryGirl.define do
   factory :invalid_answer, class: "answer" do
     title nil
     body nil
+    association :question	
  end
 end
