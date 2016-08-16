@@ -2,11 +2,11 @@ class AnswersController < ApplicationController
   before_action :load_question, only: [:new, :create]
 
   def new
-   @answer = @question.answers.build
+   @answer = @question.answers.new
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.new(answer_params)
     if @answer.save
       redirect_to @question
     else
@@ -22,7 +22,8 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:title, :body)
   end
+ 
 
 end
