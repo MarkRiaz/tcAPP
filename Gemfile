@@ -37,6 +37,9 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 
+gem 'slim-rails'
+gem 'rails-controller-testing'
+
 group :test do
   gem 'shoulda-matchers'
 end

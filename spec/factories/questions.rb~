@@ -3,7 +3,7 @@ FactoryGirl.define do
     title "MyString"
     body "MyText"
   end
-  factory :invalid_question, class: "Question" do
+  factory :invalid_question do
     title nil
     body nil
   end
