@@ -19,7 +19,7 @@ module Tcapp
                        routing_specs: false,
                        request_specs: false,
                        controller_spec: true
-      g.template_engine :haml
+      g.template_engine :slim
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
    end
   end
