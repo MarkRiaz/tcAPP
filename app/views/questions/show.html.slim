@@ -1,0 +1,19 @@
+h2= @question.title
+p= @question.body 
+
+br
+
+  -@question.answers.each do |answer|
+    br
+    = answer.body
+    br
+
+ 
+= form_for [ @question, @answer ]  do |f|
+  = f.label :body
+  br
+  = f.text_area :body
+  br
+  = f.submit 'create answer'
+ 
+  
