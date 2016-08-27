@@ -2,25 +2,26 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
 
- describe 'GET #index' do
-   let(:questions) {create_list(:question, 2)}	
+  let(:question) { create(:question)}
+  let(:user) { create (:user)}
+  describe 'GET #index' do
+    
+    let(:questions) {create_list(:question, 2)}	
 
-      before { get :index }
+    before { get :index }
       
 
-      it 'populates an array of all questions' do
-	  expect(assigns(:questions)).to match_array(questions)
-      end
+    it 'populates an array of all questions' do
+      expect(assigns(:questions)).to match_array(questions)
+    end
 
-      it 'renders index view' do
- 	expect(response).to render_template :index
-      end
+    it 'renders index view' do
+      expect(response).to render_template :index
+    end
 
   end	
   
   describe 'GET #show' do
-    let(:question) { create(:question) }
-
     before {get :show, id: question}
 
     it 'assigns the requested question to @question' do
@@ -54,7 +55,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attributes' do
 
       it 'saves the new question in the database' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -67,7 +68,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with invalid attributes' do
 
       it 'does not save the question' do
-        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(@user.questions, :count)
       end
 
       it 're-renders new view' do
@@ -77,6 +78,25 @@ RSpec.describe QuestionsController, type: :controller do
 
     end
 
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    context 'user delete own question' do
+      before { question.update(user_id: @user.id) }
+    
+      it 'deletes question' do
+        expect { delete :destroy, id: question }.to change(@user.questions, :count).by(-1)
+      end
+    end
+   
+    context 'user delete not his question' do 
+      before { question }
+      it 'does not delete question' do
+        expect { delete :destroy, params: { id: question} }.to_not change(@user.questions, :count)        
+      end     
+    end
   end
 
 end

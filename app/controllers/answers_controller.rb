@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :load_question, only: [:new, :create, :delete]
 
   def new
    @answer = @question.answers.new
@@ -12,6 +13,15 @@ class AnswersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy 
+    @answer=Answer.find(params[:id])
+    @question = @answer.question
+    if current_user.id == @answer.user_id
+      @answer.destroy
+    end
+    redirect_to @question
   end
 
 
