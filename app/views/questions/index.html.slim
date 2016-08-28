@@ -2,10 +2,10 @@
 - if user_signed_in?
   = link_to('Logout', destroy_user_session_path, :method => :delete)
 - else
-  h4 Залогиньтесь, или зарегестрируйтесь
+  h4 Залогиньтесь, или зарегистрируйтесь
   = link_to('Sign in or Sign up', new_user_session_path)
 
-h4 Список созданых вопросов
+h4 Список созданyых вопросов
 -@questions.each do |q|
  li= link_to q.title, q
 
