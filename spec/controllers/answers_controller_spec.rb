@@ -49,10 +49,15 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
   sign_in_user
   before { answer }
-
+  
     it 'deletes answer' do
+      answer.update(user_id: @user.id)
       expect { delete :destroy, params: { id: answer } }.to change(question.answers, :count).by(-1)
     end
+    
+    it 'user try destroy not his answer' do
+      expect { delete :destroy, params: { id: answer } }.to change(question.answers, :count).by(0)
+    end   
   end
   
 end
