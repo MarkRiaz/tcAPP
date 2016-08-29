@@ -26,7 +26,7 @@ feature 'user add answer', %q{
          
       end
  
-      scenario 'user try ask question' do
+      scenario 'guest can not see link create answer' do
         
         visit question_path(question)
         expect(page).to_not have_content 'create answer'  

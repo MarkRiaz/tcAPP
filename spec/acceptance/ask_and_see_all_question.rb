@@ -24,7 +24,7 @@ feature 'user ask question', %q{
          
       end
 
-      scenario 'user try ask question' do
+      scenario 'guest can not see link задать вопрос' do
         
         visit questions_path
         expect(page).to_not have_content 'задать вопрос'  
