@@ -17,17 +17,21 @@ class QuestionsController < ApplicationController
   def create
    @question = Question.new(question_params.merge(user: current_user))
      if @question.save
+       flash[:notice] = 'Your question successfully created.'
        redirect_to questions_path
      else
+       flash[:notice] = 'Your question could not be created'
        render :new
      end 
   end
 
   def destroy
-    if current_user.id == @question.user_id 
+    if current_user.author_of?(@question) 
       @question.destroy
+      flash[:notice] = 'Your question successfully deleted.'
       redirect_to questions_path
     else
+      flash[:notice] = 'Question is not yours'
       redirect_to question_path(@question)
     end
   end

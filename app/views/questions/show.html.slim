@@ -1,19 +1,23 @@
 h2= @question.title
 p= @question.body 
-
+- if signed_in? && current_user.author_of?(@question)
+  = link_to('delete_question', question_path(@question), :method => :delete)
 br
 
-  -@question.answers.each do |answer|
-    br
-    = answer.body
-    br
+- if @question.answers.any?
+  - @question.answers.each do |answer|
+      = answer.body
+      br
+      - if signed_in? && current_user.author_of?(answer)       
+        = link_to('delete answer', answer_path(answer), :method => :delete)
+      br
 
- 
-= form_for [ @question, @answer ]  do |f|
-  = f.label :body
-  br
-  = f.text_area :body
-  br
-  = f.submit 'create answer'
+- if user_signed_in?
+  = form_for [ @question, @answer ]  do |f|
+    = f.label :body
+    br
+    = f.text_area :body
+    br
+    = f.submit 'create answer'
  
   

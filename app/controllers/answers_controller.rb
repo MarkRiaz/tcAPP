@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
+      flash[:notice] = 'Your answer successfully created.'
       redirect_to @question
     end
   end
@@ -12,8 +13,9 @@ class AnswersController < ApplicationController
   def destroy 
     @answer=Answer.find(params[:id])
     @question = @answer.question
-    if current_user.id == @answer.user_id
+    if current_user.author_of?(@answer) 
       @answer.destroy
+      flash[:notice] = 'Your answer successfully deleted.'
     end
     redirect_to @question
   end

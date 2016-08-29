@@ -6,9 +6,11 @@ feature 'user add answer', %q{
 } do
 
     let!(:question) { create(:question) }
-    let!(:answers) { create_list(:answer, 3) } 
+    let!(:answers) { create_pair(:answer, question: question) } 
+    given(:user) { create(:user) }
 
       scenario 'user see question and try to add answer' do
+        sign_in(user)       
         
         visit question_path(question)
 
@@ -18,20 +20,20 @@ feature 'user add answer', %q{
         fill_in 'answer_body', with: 'MyText'
         click_on 'create answer'
         
+        expect(page).to have_content 'Your answer successfully created.'
         expect(current_path).to eq question_path(question)
          
       end 
 
     scenario 'user try see question and all answers' do
       
-     visit question_path(question)
+     visit question_path(question)  
      
-     expect(current_path).to eq question_path(question)
- 
-     answers.each do |answer|     
-       expect(page).to have_content answer.body   
+     question.answers.each do |answer|
+       expect(page).to have_content answer.body
      end
      
+     expect(current_path).to eq question_path(question)
 
     end
   end      

@@ -7,5 +7,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
-  
+  def author_of?(obj)
+    obj.user_id == id
+  end
 end
