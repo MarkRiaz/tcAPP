@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   sequence :title do |n|
-    "My string#{1}"
+    "My string#{n}"
   end
 
   factory :question do

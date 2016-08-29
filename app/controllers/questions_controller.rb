@@ -31,7 +31,6 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'Your question successfully deleted.'
       redirect_to questions_path
     else
-      flash[:notice] = 'Question is not yours'
       redirect_to question_path(@question)
     end
   end
