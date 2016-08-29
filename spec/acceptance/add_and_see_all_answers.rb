@@ -21,9 +21,17 @@ feature 'user add answer', %q{
         click_on 'create answer'
         
         expect(page).to have_content 'Your answer successfully created.'
+        expect(page).to have_content 'MyText'
         expect(current_path).to eq question_path(question)
          
-      end 
+      end
+ 
+      scenario 'user try ask question' do
+        
+        visit question_path(question)
+        expect(page).to_not have_content 'create answer'  
+
+      end
 
     scenario 'user try see question and all answers' do
       

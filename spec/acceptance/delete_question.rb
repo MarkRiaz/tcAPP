@@ -22,4 +22,14 @@ feature 'user delete question', %q{
       
         expect(page).to have_content 'Your question successfully deleted.'  
       end 
+
+     scenario 'guest can not see link delete' do     
+        
+        visit question_path(question)
+
+	expect(page).to have_content question.title
+        expect(page).to have_content question.body             
+            
+        expect(page).to_not have_content 'delete_question'  
+      end
    end
