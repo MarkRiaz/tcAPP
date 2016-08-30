@@ -35,13 +35,11 @@ feature 'user add answer', %q{
 
     scenario 'user try see question and all answers' do
       
-     visit question_path(question)  
+      visit question_path(question)  
      
-     question.answers.each do |answer|
-       expect(page).to have_content answer.body
-     end
-     
-     expect(current_path).to eq question_path(question)
+      question.answers.each do |answer|
+        expect(page).to have_content answer.body
+      end
 
     end
   end      
