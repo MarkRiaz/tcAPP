@@ -39,6 +39,8 @@ feature 'user ask question', %q{
         click_on 'create question'
   
         expect(page).to have_content 'Your question could not be created'
+        visit questions_path 
+        expect(page).to_not have_content 'MyString'
       end
  
       scenario 'user try see all questions' do
@@ -46,12 +48,10 @@ feature 'user ask question', %q{
  
         visit questions_path    
      
-       questions.each do |que|
-         expect(page).to have_content que.title 
-       end
+        questions.each do |que|
+          expect(page).to have_content que.title 
+        end
     
-       expect(current_path).to eq questions_path
-
       end
   end      
 

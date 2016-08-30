@@ -21,7 +21,8 @@ feature 'user delete answer', %q{
         
         click_on 'delete answer'
       
-        expect(page).to have_content 'Your answer successfully deleted.'  
+        expect(page).to have_content 'Your answer successfully deleted.'
+        expect(page).to_not have_content answer.body   
       end 
 
       scenario 'guest can not see link delete' do     
