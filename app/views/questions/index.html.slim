@@ -9,9 +9,14 @@
   h4 Хотите задать вопрос?
   = link_to('задать вопрос', new_question_path)
 
-h4 Список созданных вопросов
--@questions.each do |q|
- li= link_to q.title, q
+- if @questions.any?
+  h4 Список созданных вопросов
+  -@questions.each do |q|
+    li= link_to q.title, q
+- else
+  br
+  h4 пока нет ни одного вопроса!
+
 
 
 
