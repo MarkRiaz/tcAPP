@@ -7,6 +7,9 @@ class AnswersController < ApplicationController
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
       redirect_to @question
+    else
+      redirect_to question_path(@question)
+      flash[:notice] = 'Your answer could not be created.'
     end
   end
 

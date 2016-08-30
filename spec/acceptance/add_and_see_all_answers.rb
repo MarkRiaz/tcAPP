@@ -25,6 +25,15 @@ feature 'user add answer', %q{
         expect(current_path).to eq question_path(question)
          
       end
+
+      scenario 'answer не сохраняется' do 
+        sign_in(user) 
+        visit question_path(question)      
+
+        click_on 'create answer'
+  
+        expect(page).to have_content 'Your answer could not be created.' 
+      end
  
       scenario 'guest can not see link create answer' do
         
