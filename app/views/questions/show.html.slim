@@ -4,13 +4,8 @@ p= @question.body
   = link_to('delete_question', question_path(@question), :method => :delete)
 br
 
-- if @question.answers.any?
-  - @question.answers.each do |answer|
-      = answer.body
-      br
-      - if signed_in? && current_user.author_of?(answer)       
-        = link_to('delete answer', answer_path(answer), :method => :delete)
-      br
+.answers
+  = render 'answers'
 
 - if user_signed_in?
   = form_for [ @question, @answer ]  do |f|
