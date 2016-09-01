@@ -9,7 +9,7 @@ feature 'user add answer', %q{
     let!(:answers) { create_pair(:answer, question: question) } 
     given(:user) { create(:user) }
 
-      scenario 'user see question and try to add answer' do
+      scenario 'user see question and try to add answer', js: true do
         sign_in(user)       
         
         visit question_path(question)
@@ -20,7 +20,7 @@ feature 'user add answer', %q{
         fill_in 'answer_body', with: 'MyText'
         click_on 'create answer'
         
-        expect(page).to have_content 'Your answer successfully created.'
+        #expect(page).to have_content 'Your answer successfully created.'
         expect(page).to have_content 'MyText'
         expect(current_path).to eq question_path(question)
          
