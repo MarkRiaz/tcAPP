@@ -9,22 +9,42 @@ feature 'user add answer', %q{
     let!(:answers) { create_pair(:answer, question: question) } 
     given(:user) { create(:user) }
 
-      scenario 'user see question and try to add answer', js: true do
+      scenario 'fix bug', js: true do 
         sign_in(user)       
+        visit questions_path
         
-        visit question_path(question)
-
-	expect(page).to have_content question.title
-        expect(page).to have_content question.body
+        click_on 'задать вопрос'	
  
-        fill_in 'answer_body', with: 'MyText'
+        fill_in 'question_title', with: 'MyString'
+        fill_in 'question_body', with: 'MyText'
+
+        click_on 'create question'
+        click_on 'MyString'
+
+        fill_in 'answer_body', with: 'Ошибка'
         click_on 'create answer'
         
-        #expect(page).to have_content 'Your answer successfully created.'
-        expect(page).to have_content 'MyText'
-        expect(current_path).to eq question_path(question)
-         
+        save_and_open_page
       end
+
+
+      #scenario 'user see question and try to add answer', js: true do
+        #sign_in(user)       
+        
+        #visit question_path(question)
+
+	#expect(page).to have_content question.title
+        #expect(page).to have_content question.body
+ 
+       # fill_in 'answer_body', with: 'MyText'
+       # click_on 'create answer'
+        #save_and_open_page
+        #expect(page).to have_content 'Your answer successfully created.'
+       # expect(page).to have_content 'MyText'
+        #save_and_open_page
+       # expect(current_path).to eq question_path(question)
+         
+    #  end
 
       scenario 'answer не сохраняется' do 
         sign_in(user) 

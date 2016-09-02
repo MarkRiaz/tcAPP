@@ -2,5 +2,5 @@
   - @question.answers.each do |answer|
       p = answer.body
       - if signed_in? && current_user.author_of?(answer)       
-        = link_to('delete answer', answer_path(answer), :method => :delete)
+        = link_to('delete answer', answer_path(answer), method: :delete)
         
