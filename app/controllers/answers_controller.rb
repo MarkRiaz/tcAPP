@@ -1,17 +1,11 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :load_question, only: [:new, :create]
+  before_action :load_question, only: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     @answer.save
-      #flash[:notice] = 'Your answer successfully created.'
-      #redirect_to @question
-    #else
-      #redirect_to question_path(@question)
-      #flash[:notice] = 'Your answer could not be created.'
-    #end
   end
 
   def destroy 
