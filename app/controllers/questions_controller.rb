@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :destroy]
+  before_action :load_question, only: [:show, :edit, :update, :destroy]
   
   def index
    @questions = Question.all
@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   
   def show
    @answer  = @question.answers.build
+   #@answers  = @question.answers
   end
 
   def new
@@ -25,6 +26,19 @@ class QuestionsController < ApplicationController
      end 
   end
 
+  def edit
+  end
+  
+  def update
+    if @question.update(question_params)
+      flash[:notice] = 'Your question successfully updated.'
+      redirect_to @question
+    else
+      flash[:notice] = 'Your question could not be updated.'
+      render :edit
+    end
+  end
+  
   def destroy
     if current_user.author_of?(@question) 
       @question.destroy

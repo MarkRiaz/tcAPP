@@ -2,14 +2,17 @@ h2= @question.title
 p= @question.body 
 - if signed_in? && current_user.author_of?(@question)
   = link_to('delete_question', question_path(@question), method: :delete)
-
+  '  
+  = link_to('edit_question', edit_question_path(@question)) 
 
 .answers
-= render 'answers'
+= render @question.answers
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
     = f.label :body
+    br
+    .answers-errors
     br
     = f.text_area :body
     br

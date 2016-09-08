@@ -5,8 +5,8 @@ feature 'user add answer', %q{
   after user can add answer
 } do
 
-    let!(:question) { create(:question) }
-    let!(:answers) { create_pair(:answer, question: question) } 
+    given!(:question) { create(:question) }
+    given(:answers) { create_pair(:answer, question: question) } 
     given(:user) { create(:user) }
 
       scenario 'user see question and try to add answer', js: true do
@@ -25,13 +25,14 @@ feature 'user add answer', %q{
          
       end
 
-      scenario 'answer не сохраняется' do 
+      scenario 'answer не сохраняется', js: true do 
         sign_in(user) 
         visit question_path(question)      
 
+        #save_and_open_page
         click_on 'create answer'
   
-        expect(page).to have_content 'Your answer could not be created.' 
+        expect(page).to have_content "Body can't be blankBody is too short (minimum is 1 character)"
       end
  
       scenario 'guest can not see link create answer' do
