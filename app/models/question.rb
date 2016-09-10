@@ -1,7 +1,12 @@
 class Question < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :destroy
-  validates :title, presence:  true, length: { maximum: 50, minimum: 1 } 
-  validates :body, presence:  true, length: { maximum: 500, minimum: 1 }
-  validates :user_id, presence:  true 
+  validates :user_id, :body, :title, presence:  true
+  validates :title, length: { maximum: 50, minimum: 1 }
+  validates :body, length: { maximum: 500, minimum: 1 }
+
+  def answers_without_best
+    answers.reject{ |answer| answer.id == best_answer }
+  end
+
 end

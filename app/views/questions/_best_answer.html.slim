@@ -1,0 +1,12 @@
+-if @question.best_answer && Answer.find_by_id(@question.best_answer)
+  = "Best answer: #{Answer.find(@question.best_answer).body}"
+  - if signed_in? && current_user.author_of?(Answer.find(@question.best_answer))
+    br
+    = link_to 'delete answer', Answer.find(@question.best_answer), method: :delete, remote: true
+    '
+    = link_to 'edit answer', '',class: 'edit-answer-link', data: { answer_id: Answer.find(@question.best_answer) }
+    p
+      = form_for Answer.find(@question.best_answer), remote: true, html: { id: "best-edit-answer-#{Answer.find(@question.best_answer)}"} do |f|
+        = f.label :body
+        = f.text_area :body
+        = f.submit 'Save'

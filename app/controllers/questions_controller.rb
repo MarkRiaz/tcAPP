@@ -30,12 +30,8 @@ class QuestionsController < ApplicationController
   end
   
   def update
-    if @question.update(question_params)
-      flash[:notice] = 'Your question successfully updated.'
-      redirect_to @question
-    else
-      flash[:notice] = 'Your question could not be updated.'
-      render :edit
+    if current_user.author_of?(@question)
+      @question.update(question_params)
     end
   end
   
@@ -56,6 +52,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:body, :title)
+    params.require(:question).permit(:body, :title, :best_answer)
   end
 end
