@@ -5,4 +5,5 @@
 <% else %>
   $('#question<%= @question.id %>').replaceWith('<%= j render @question %>');
   $('.best').html('<%= j render 'questions/best_answer' %>');
+  $('.answers').html('<%= j render @question.answers_without_best %>');
 <% end %>

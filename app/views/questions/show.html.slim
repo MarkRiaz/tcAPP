@@ -4,9 +4,9 @@
   =render 'best_answer'
 
 .answers
-  = render @question.answers
+  = render @question.answers_without_best
 
-  
+
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
@@ -17,5 +17,3 @@
     = f.text_area :body
     br
     = f.submit 'create answer'
- 
-  

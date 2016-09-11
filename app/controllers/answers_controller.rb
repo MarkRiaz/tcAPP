@@ -2,15 +2,16 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :load_question, only: [:create]
   before_action :load_answer, only: [:destroy, :update]
+
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     @answer.save
   end
 
-  def destroy 
+  def destroy
     @question = @answer.question
-    if current_user.author_of?(@answer) 
+    if current_user.author_of?(@answer)
       @answer.destroy
     end
   end
@@ -18,10 +19,9 @@ class AnswersController < ApplicationController
   def update
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
-    end
-    @question = @answer.question 
+    end    
+    @question = @answer.question
   end
-
 
   private
 
@@ -36,6 +36,6 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
- 
+
 
 end

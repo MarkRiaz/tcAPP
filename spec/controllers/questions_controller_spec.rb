@@ -5,11 +5,11 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question)}
   let(:user) { create (:user)}
   describe 'GET #index' do
-    
-    let(:questions) {create_list(:question, 2)}	
+
+    let(:questions) {create_list(:question, 2)}
 
     before { get :index }
-      
+
 
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
@@ -19,8 +19,8 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :index
     end
 
-  end	
-  
+  end
+
   describe 'GET #show' do
     before {get :show, id: question}
 
@@ -33,21 +33,21 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
   end
-	
+
   describe 'GET #new' do
    sign_in_user
 
    before {get :new}
-   
+
    it 'assigns a new Question to @question' do
-     expect(assigns(:question)).to be_a_new(Question) 
-   end  
+     expect(assigns(:question)).to be_a_new(Question)
+   end
 
    it 'renders new view' do
  	expect(response).to render_template :new
    end
 
-  end 
+  end
 
   describe 'POST #create' do
     sign_in_user
@@ -84,17 +84,34 @@ RSpec.describe QuestionsController, type: :controller do
 
   end
 
-  describe 'GET #edit' do
+  describe 'PATCH #update' do
     sign_in_user
-    before { get :edit, id: question }
 
-    it 'assings the requested question to @question' do
+    it 'assings the requested answer to @question' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
       expect(assigns(:question)).to eq question
     end
 
-    it 'renders edit view' do
-      expect(response).to render_template :edit
+    it 'changes question attributes' do
+      question.update(user_id: @user.id)
+      patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js
+      question.reload
+      expect(question.title).to eq 'new title'
+      expect(question.body).to eq 'new body'
     end
+
+    it 'render update template' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(response).to render_template :update
+    end
+
+    it 'not changes answer attributes to rong user' do
+      patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js
+      question.reload
+      expect(question.title).to_not eq 'new title'
+      expect(question.body).to_not eq 'new body'
+    end
+
   end
 
   describe 'DELETE #destroy' do
@@ -102,17 +119,17 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'user delete own question' do
       before { question.update(user_id: @user.id) }
-    
+
       it 'deletes question' do
         expect { delete :destroy, id: question }.to change(@user.questions, :count).by(-1)
       end
     end
-   
-    context 'user delete not his question' do 
+
+    context 'user delete not his question' do
       before { question }
       it 'does not delete question' do
-        expect { delete :destroy, params: { id: question} }.to_not change(@user.questions, :count)        
-      end     
+        expect { delete :destroy, params: { id: question} }.to_not change(@user.questions, :count)
+      end
     end
   end
 

@@ -6,7 +6,11 @@ class Question < ApplicationRecord
   validates :body, length: { maximum: 500, minimum: 1 }
 
   def answers_without_best
-    answers.reject{ |answer| answer.id == best_answer }
+    answers.reject{ |answer| answer.id == best_answer_id }
+  end
+
+  def best_answer
+    Answer.find_by_id(best_answer_id)
   end
 
 end
