@@ -15,11 +15,10 @@ feature 'edit answer', %q{
     end
 
 
-    scenario 'auth user', js: true do
+    scenario 'auth user and author try to edit answer', js: true do
         sign_in(answer.user)
         visit question_path(question)
 
-        #приходится загружать ответ потому что он не появляется
         fill_in 'answer_body', with: 'MyText'
         click_on 'create answer'
 
@@ -32,5 +31,15 @@ feature 'edit answer', %q{
           click_on 'edit'
           expect(page).to have_content 'MyText1234'
         end
+    end
+    scenario 'auth user and not author try to edit answer', js: true do
+       sign_in(user)
+       visit question_path(question)
+       fill_in 'answer_body', with: 'MyText'
+       click_on 'create answer'
+
+       within '.answers' do
+         expect(page).to_not have_link 'edit answer'
+       end
     end
   end

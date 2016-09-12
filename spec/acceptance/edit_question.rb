@@ -15,7 +15,7 @@ feature 'edit question', %q{
     end
 
 
-    scenario 'auth user', js: true do
+    scenario 'auth user and author try to edit question', js: true do
         sign_in(question.user)
         visit question_path(question)
         expect(page).to have_link 'edit_question'
@@ -27,5 +27,11 @@ feature 'edit question', %q{
         expect(page).to have_content 'MyTitle1234'
         expect(page).to have_content 'MyText1234'
 
+    end
+    scenario 'auth user and not author try to edit question', js: true do
+       sign_in(user)
+       visit question_path(question)
+
+       expect(page).to_not have_link 'edit question'
     end
   end
