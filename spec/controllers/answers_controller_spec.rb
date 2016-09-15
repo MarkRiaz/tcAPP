@@ -59,6 +59,48 @@ RSpec.describe AnswersController, type: :controller do
       expect(answer.body).to_not eq 'new body'
     end
 
+
+  end
+  describe 'PATCH #best' do
+    sign_in_user
+    let(:author_of_answer) { create(:user) }
+    let!(:answer_2) { create(:answer, question: question, user: author_of_answer, best: false) }
+    context 'Question author choose best answer' do
+
+      it 'assigns the requested answer to @answer' do
+        patch :best, id: answer, format: :js
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'set the best answer' do
+        answer.update(best: true)
+        patch :best, id: answer, format: :js
+        answer.reload
+        expect(answer.best).to eq true
+      end
+
+      it 'choose another best answer' do
+        answer_2.update(best: true)
+        patch :best, id: answer_2, format: :js
+        answer.reload
+        answer_2.reload
+
+        expect(answer.best).to eq false
+        expect(answer_2.best).to eq true
+      end
+    end
+
+    context 'Not question author choose best answer' do
+      before do
+        question.update_attribute(:user, author_of_answer)
+      end
+      it 'another user tries to choose best answer' do
+        patch :best, id: answer, format: :js
+        answer.reload
+
+        expect(answer.best).to eq false
+      end
+    end
   end
 
   describe 'DELETE #destroy' do
