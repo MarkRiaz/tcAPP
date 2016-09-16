@@ -105,7 +105,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :update
     end
 
-    it 'not changes answer attributes to rong user' do
+    it 'not changes answer attributes to wrong user' do
       patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js
       question.reload
       expect(question.title).to_not eq 'new title'
