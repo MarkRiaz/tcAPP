@@ -5,9 +5,11 @@ feature 'edit answer', %q{
   after user try to edit answer
 } do
 
-    given!(:question) { create(:question) }
-    given(:answer) { create(:answer, question: question, user: user) }
-    given(:user) { create(:user) }
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+
     scenario 'unauth user try to edit question' do
       visit question_path(question)
 
@@ -16,11 +18,8 @@ feature 'edit answer', %q{
 
 
     scenario 'auth user and author try to edit answer', js: true do
-        sign_in(answer.user)
+        sign_in(user)
         visit question_path(question)
-
-        fill_in 'answer_body', with: 'MyText'
-        click_on 'create answer'
 
         expect(page).to have_link 'edit answer'
 
@@ -33,7 +32,7 @@ feature 'edit answer', %q{
         end
     end
     scenario 'auth user and not author try to edit answer', js: true do
-       sign_in(user)
+       sign_in(other_user)
        visit question_path(question)
        fill_in 'answer_body', with: 'MyText'
        click_on 'create answer'

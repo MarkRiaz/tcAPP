@@ -1,5 +1,6 @@
 <% if @best_answer_error.present? %>
    $('.messages').html('<%= j @best_answer_error%><br>');
 <%else%>
+  $('#answer<%= @answer.id %>').addClass('best');
   $('.answers').html("<%= j render @question.answers %>");
 <%end%>

@@ -1,7 +1,8 @@
 - if answer.persisted?
-  div id="answer#{answer.id}"
+  li id="answer#{answer.id}"
     - if answer.best?
       span BEST ANSWER:
+      .best
     span = answer.body
     p
     - if signed_in? && current_user.author_of?(answer)
