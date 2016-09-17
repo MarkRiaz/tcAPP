@@ -31,9 +31,14 @@ feature 'best answer', %q{
         end
         within '.answers' do
           expect(page).to have_content 'BEST ANSWER:'
-          expect(page).to have_content (answer.body)
+          expect(page).to have_content answer.body
           expect(page).to have_css('.best', count: 1)
           expect(question.answers).to start_with answer
+        end
+        within '.answers' do
+          within "li:first-child" do
+            expect(page).to have_content answer.body
+          end
         end
     end
     scenario 'auth user and not author try choose best', js: true do
