@@ -1,6 +1,11 @@
 div id="question#{@question.id}"
   h2= @question.title
   p= @question.body
+  - @question.attachments.each do |a|
+    li id="file#{a.id}"
+      = link_to a.file.identifier, a.file.url
+      br
+      = link_to 'delete file', attachment_path(a), method: :delete, remote: true
   - if signed_in? && current_user.author_of?(@question)
     = link_to 'delete_question', question_path(@question), method: :delete
     '
@@ -15,4 +20,9 @@ div id="question#{@question.id}"
         br
         = f.text_area :body
         br
-        = f.submit 'edit' 
+        = f.fields_for :attachments do |attachments|
+        .links
+          p
+          = link_to_add_association 'add file', f, :attachments
+          br
+        = f.submit 'edit'

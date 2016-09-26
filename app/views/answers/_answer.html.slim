@@ -6,6 +6,12 @@
     span = answer.body
     p
     - if signed_in? && current_user.author_of?(answer)
+      - answer.attachments.each do |a|
+        li id="file#{a.id}"
+          = link_to a.file.identifier, a.file.url
+          br
+          = link_to 'delete file', attachment_path(a), method: :delete, remote: true
+          br
       = link_to 'delete answer', answer, method: :delete, remote: true
       '
       = link_to 'edit answer', '',class: 'edit-answer-link', data: { answer_id: answer.id }
@@ -18,5 +24,11 @@
       br
       = f.text_area :body
       br
+      = f.fields_for :attachments do |attachments|
+        li= render 'attachment_fields', f: attachments
+      .links
+        p
+        = link_to_add_association 'add file', f, :attachments
+        br
       = f.submit 'edit'
 p

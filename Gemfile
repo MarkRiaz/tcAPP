@@ -42,6 +42,9 @@ end
 
 gem 'slim-rails'
 gem 'rails-controller-testing'
+gem 'cocoon'
+gem 'carrierwave'
+gem 'remotipart'
 
 group :test do
   gem 'shoulda-matchers'

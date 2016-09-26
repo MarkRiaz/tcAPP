@@ -8,5 +8,8 @@ Rails.application.routes.draw do
       patch :best, on: :member
     end
   end
+
+  resources :attachment, only: :destroy
+
   root to: "questions#index"
 end

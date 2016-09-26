@@ -8,19 +8,24 @@ class QuestionsController < ApplicationController
 
   def show
    @answer  = @question.answers.build
-   #@answers  = @question.answers
+   @answer.attachments.build
   end
 
   def new
    @question = Question.new
+   @question.attachments.build
   end
 
   def create
-   @question = Question.new(question_params.merge(user: current_user))
+   @question = Question.new(question_params)
+   @question.user = current_user
      if @question.save
        flash[:notice] = 'Your question successfully created.'
        redirect_to questions_path
      else
+       p '=================================='
+       p @question.errors.full_messages
+
        flash[:notice] = 'Your question could not be created'
        render :new
      end
@@ -53,6 +58,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:body, :title, :best_answer_id)
+    params.require(:question).permit(:body, :title, attachments_attributes: [:file, :id, :_destroy])
   end
 end
