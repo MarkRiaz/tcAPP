@@ -21,7 +21,7 @@ feature 'Add files to question', %q{
       click_on 'create answer'
 
       within '.answers' do
-        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+        expect(page).to have_link 'rails_helper.rb'
       end
     end
 
@@ -41,8 +41,8 @@ feature 'Add files to question', %q{
 
       #save_and_open_page
       within '.answers' do
-        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
-        expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
 
@@ -56,7 +56,7 @@ feature 'Add files to question', %q{
         click_on 'edit'
       end
       within '.answers' do
-        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+        expect(page).to have_link 'rails_helper.rb'
       end
     end
 
@@ -67,12 +67,12 @@ feature 'Add files to question', %q{
       click_on 'create answer'
 
       within '.answers' do
-        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+        expect(page).to have_link 'rails_helper.rb'
       end
 
       within '.answers' do
         click_on 'delete file'
-        expect(page).to_not have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+        expect(page).to_not have_link 'rails_helper.rb'
       end
     end
  end

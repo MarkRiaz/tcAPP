@@ -23,9 +23,6 @@ class QuestionsController < ApplicationController
        flash[:notice] = 'Your question successfully created.'
        redirect_to questions_path
      else
-       p '=================================='
-       p @question.errors.full_messages
-
        flash[:notice] = 'Your question could not be created'
        render :new
      end

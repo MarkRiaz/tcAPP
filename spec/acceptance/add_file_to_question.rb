@@ -20,7 +20,7 @@ feature 'Add files to question', %q{
     click_on 'create question'
     click_on 'Test question'
 
-    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+    expect(page).to have_link 'rails_helper.rb'
   end
 
   scenario 'User adds files when asks question', js: true do
@@ -44,8 +44,8 @@ feature 'Add files to question', %q{
     click_on 'Test question'
 
     within '.question' do
-      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
@@ -62,7 +62,7 @@ feature 'Add files to question', %q{
     end
 
     within '.question' do
-      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+      expect(page).to have_link 'rails_helper.rb'
     end
   end
   scenario 'User adds file when adds answer, and try to delete it', js: true do
@@ -73,12 +73,12 @@ feature 'Add files to question', %q{
     click_on 'create question'
     click_on 'Test question'
     within '.question' do
-      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+      expect(page).to have_link 'rails_helper.rb'
     end
 
     within '.question' do
       click_on 'delete file'
-      expect(page).to_not have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+      expect(page).to_not have_link 'rails_helper.rb'
     end
   end
 end
